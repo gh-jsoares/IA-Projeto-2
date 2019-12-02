@@ -5,8 +5,8 @@ import random
 # the code should work even with another environment
 class LearningAgent:
 
-        ALPHA = 0.1
-        GAMMA = 0.8
+        ALPHA = 1
+        GAMMA = 0.9
 
         # init
         # nS maximum number of states
@@ -27,7 +27,6 @@ class LearningAgent:
         # returns
         # a - the index to the action in aa
         def selectactiontolearn(self,st,aa):
-                # define this function
                 # print("select one action to learn better")
                 a = random.randrange(len(aa))
                 #TODO: Missing stuff?
@@ -40,13 +39,11 @@ class LearningAgent:
         # returns
         # a - the index to the action in aa
         def selectactiontoexecute(self,st,aa):
-                # define this function
                 a = 0
                 # print("select one action to see if I learned")
-                for ai in aa:
+                for ai in range(len(aa)):
                         if self.qTable[st][ai] > self.qTable[st][a]:
-                                a = aa.index(ai)
-                #TODO: Missing stuff? Weird bug.
+                                a = ai
                 return a
 
 

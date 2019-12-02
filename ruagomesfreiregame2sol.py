@@ -6,14 +6,16 @@ import numpy as np
 # the code should work even with another environment
 class LearningAgent:
 
+        ALPHA = 0.6
+        GAMMA = 0.9
+        EPSILON = 0.3
+
         # init
         # nS maximum number of states
         # nA maximum number of action per state
         def __init__(self,nS,nA):
                 self.nS = nS
                 self.nA = nA
-                self.ALPHA=0.6
-                self.GAMMA=0.9
                 # create a table nS x nA
                 self.qTable = np.zeros((nS, nA))
               
@@ -27,7 +29,9 @@ class LearningAgent:
         def selectactiontolearn(self,st,aa):
                 # print("select one action to learn better")
                 # return random.randrange(len(aa))
-                return random.randint(0, len(aa) - 1)
+                if random.uniform(0, 1) < self.EPSILON:
+                        return random.randint(0, len(aa) - 1)
+                return self.selectactiontoexecute(st, aa)
 
         # Select one action, used when evaluating
         # st - is the current state        
@@ -38,13 +42,13 @@ class LearningAgent:
         def selectactiontoexecute(self,st,aa):
                 # print("select one action to see if I learned")
 
-                a = 0
-                for i in range(1, len(aa)):
-                        if self.qTable[st, i] > self.qTable[st, a]:
-                                a = i
-                return a
+                # a = 0
+                # for i in range(1, len(aa)):
+                #         if self.qTable[st, i] > self.qTable[st, a]:
+                #                 a = i
+                # return a
 
-                # return np.argmax(self.qTable[st, :len(aa)])
+                return np.argmax(self.qTable[st, :len(aa)])
 
 
         # this function is called after every action

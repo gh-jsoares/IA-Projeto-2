@@ -6,15 +6,14 @@ import numpy as np
 # the code should work even with another environment
 class LearningAgent:
 
-        ALPHA = 0.8
-        GAMMA = 0.9
-
         # init
         # nS maximum number of states
         # nA maximum number of action per state
         def __init__(self,nS,nA):
                 self.nS = nS
                 self.nA = nA
+                self.ALPHA=0.6
+                self.GAMMA=0.9
                 # create a table nS x nA
                 self.qTable = np.zeros((nS, nA))
               
@@ -55,5 +54,5 @@ class LearningAgent:
         # r - reward obtained
         def learn(self,ost,nst,a,r):
                 #print("learn something from this data")
-                self.qTable[ost, a] = self.qTable[ost, a] + self.ALPHA * (r + self.GAMMA * np.max(self.qTable[nst, :]) - self.qTable[ost, a])
+                self.qTable[ost, a] = self.qTable[ost, a] + self.ALPHA * (r + self.GAMMA * np.max(self.qTable[nst,:]) - self.qTable[ost, a])
                 return

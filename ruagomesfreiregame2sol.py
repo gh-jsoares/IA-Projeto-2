@@ -6,8 +6,9 @@ import numpy as np
 # the code should work even with another environment
 class LearningAgent:
 
-        ALPHA = 0.8
-        GAMMA = 0.9
+        ALPHA = 0.7
+        GAMMA = 0.85
+        EPSILON = 0.3
 
         # init
         # nS maximum number of states
@@ -28,7 +29,9 @@ class LearningAgent:
         def selectactiontolearn(self,st,aa):
                 # print("select one action to learn better")
                 # return random.randrange(len(aa))
-                return random.randint(0, len(aa) - 1)
+                if random.uniform(0, 1) < self.EPSILON:
+                        return random.randint(0, len(aa) - 1)
+                return self.selectactiontoexecute(st, aa)
 
         # Select one action, used when evaluating
         # st - is the current state        
@@ -39,13 +42,13 @@ class LearningAgent:
         def selectactiontoexecute(self,st,aa):
                 # print("select one action to see if I learned")
 
-                a = 0
-                for i in range(1, len(aa)):
-                        if self.qTable[st, i] > self.qTable[st, a]:
-                                a = i
-                return a
+                # a = 0
+                # for i in range(1, len(aa)):
+                #         if self.qTable[st, i] > self.qTable[st, a]:
+                #                 a = i
+                # return a
 
-                # return np.argmax(self.qTable[st, :len(aa)])
+                return np.argmax(self.qTable[st, :len(aa)])
 
 
         # this function is called after every action

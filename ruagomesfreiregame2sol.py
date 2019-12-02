@@ -6,7 +6,7 @@ import numpy as np
 # the code should work even with another environment
 class LearningAgent:
 
-        ALPHA = 1
+        ALPHA = 0.15
         GAMMA = 0.99
 
         # init
@@ -17,8 +17,6 @@ class LearningAgent:
                 self.nA = nA
                 # create a table nS x nA
                 self.qTable = np.zeros((nS, nA))
-
-
               
         
         # Select one action, used when learning  
@@ -29,9 +27,7 @@ class LearningAgent:
         # a - the index to the action in aa
         def selectactiontolearn(self,st,aa):
                 # print("select one action to learn better")
-                a = random.randrange(len(aa))
-                #TODO: Missing stuff?
-                return a
+                return random.randrange(len(aa))
 
         # Select one action, used when evaluating
         # st - is the current state        
@@ -42,9 +38,7 @@ class LearningAgent:
         def selectactiontoexecute(self,st,aa):
                 a = 0
                 # print("select one action to see if I learned")
-                for ai in range(len(aa)):
-                        if self.qTable[st, ai] > self.qTable[st, a]:
-                                a = ai
+                # TODO: 
                 return a
 
 
@@ -56,5 +50,4 @@ class LearningAgent:
         def learn(self,ost,nst,a,r):
                 #print("learn something from this data")
                 self.qTable[ost, a] = self.qTable[ost, a] + self.ALPHA * (r + self.GAMMA * np.max(self.qTable[nst, :]) - self.qTable[ost, a])
-                #TODO: Missing stuff?
                 return

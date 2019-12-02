@@ -1,4 +1,5 @@
 import random
+import numpy as np
 
 # LearningAgent to implement
 # no knowledeg about the environment can be used
@@ -6,7 +7,7 @@ import random
 class LearningAgent:
 
         ALPHA = 1
-        GAMMA = 0.9
+        GAMMA = 0.99
 
         # init
         # nS maximum number of states
@@ -15,7 +16,7 @@ class LearningAgent:
                 self.nS = nS
                 self.nA = nA
                 # create a table nS x nA
-                self.qTable = [[0] * nA ] * nS
+                self.qTable = np.zeros((nS, nA))
 
 
               
@@ -42,7 +43,7 @@ class LearningAgent:
                 a = 0
                 # print("select one action to see if I learned")
                 for ai in range(len(aa)):
-                        if self.qTable[st][ai] > self.qTable[st][a]:
+                        if self.qTable[st, ai] > self.qTable[st, a]:
                                 a = ai
                 return a
 
@@ -54,6 +55,6 @@ class LearningAgent:
         # r - reward obtained
         def learn(self,ost,nst,a,r):
                 #print("learn something from this data")
-                self.qTable[ost][a] = self.qTable[ost][a] + self.ALPHA * (r + self.GAMMA * max(self.qTable[nst]) - self.qTable[ost][a])
+                self.qTable[ost, a] = self.qTable[ost, a] + self.ALPHA * (r + self.GAMMA * np.max(self.qTable[nst, :]) - self.qTable[ost, a])
                 #TODO: Missing stuff?
                 return

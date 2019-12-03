@@ -1,4 +1,5 @@
 import random
+import math
 import numpy as np
 
 # LearningAgent to implement
@@ -6,9 +7,9 @@ import numpy as np
 # the code should work even with another environment
 class LearningAgent:
 
-        ALPHA = 0.6
-        GAMMA = 0.9
-        EPSILON = 0.3
+        ALPHA = 0.8 # learning rate
+        GAMMA = 0.8 # discount factor
+        EPSILON = 0.3 # exploration rate
 
         # init
         # nS maximum number of states
@@ -17,7 +18,8 @@ class LearningAgent:
                 self.nS = nS
                 self.nA = nA
                 # create a table nS x nA
-                self.qTable = np.zeros((nS, nA))
+                # self.qTable = np.zeros((nS, nA))
+                self.qTable = np.full((nS, nA), -math.inf)
               
         
         # Select one action, used when learning  
@@ -29,6 +31,10 @@ class LearningAgent:
         def selectactiontolearn(self,st,aa):
                 # print("select one action to learn better")
                 # return random.randrange(len(aa))
+                for ai in range(len(aa)):
+                        if self.qTable[st, ai] == -math.inf:
+                                self.qTable[st, ai] = 0
+
                 if random.uniform(0, 1) < self.EPSILON:
                         return random.randint(0, len(aa) - 1)
                 return self.selectactiontoexecute(st, aa)
@@ -58,5 +64,5 @@ class LearningAgent:
         # r - reward obtained
         def learn(self,ost,nst,a,r):
                 #print("learn something from this data")
-                self.qTable[ost, a] = self.qTable[ost, a] + self.ALPHA * (r + self.GAMMA * np.max(self.qTable[nst,:]) - self.qTable[ost, a])
+                self.qTable[ost, a] += self.ALPHA * (r + self.GAMMA * np.max(self.qTable[nst, :]) - self.qTable[ost, a])
                 return

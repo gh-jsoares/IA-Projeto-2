@@ -18,7 +18,6 @@ class LearningAgent:
                 self.nS = nS
                 self.nA = nA
                 # create a table nS x nA
-                # self.qTable = np.zeros((nS, nA))
                 self.qTable = np.full((nS, nA), -math.inf)
               
         
@@ -30,13 +29,13 @@ class LearningAgent:
         # a - the index to the action in aa
         def selectactiontolearn(self,st,aa):
                 # print("select one action to learn better")
-                # return random.randrange(len(aa))
                 for ai in range(len(aa)):
                         if self.qTable[st, ai] == -math.inf:
                                 self.qTable[st, ai] = 0
 
                 if random.uniform(0, 1) < self.EPSILON:
                         return random.randint(0, len(aa) - 1)
+                        
                 return self.selectactiontoexecute(st, aa)
 
         # Select one action, used when evaluating
@@ -47,12 +46,6 @@ class LearningAgent:
         # a - the index to the action in aa
         def selectactiontoexecute(self,st,aa):
                 # print("select one action to see if I learned")
-
-                # a = 0
-                # for i in range(1, len(aa)):
-                #         if self.qTable[st, i] > self.qTable[st, a]:
-                #                 a = i
-                # return a
 
                 return np.argmax(self.qTable[st, :len(aa)])
 

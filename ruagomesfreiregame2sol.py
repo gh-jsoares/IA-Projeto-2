@@ -17,7 +17,7 @@ class LearningAgent:
         def __init__(self,nS,nA):
                 self.nS = nS
                 self.nA = nA
-                
+
                 # create a table nS x nA
                 self.qTable = [[]] * nS
                 for i in range(nS):
@@ -49,8 +49,11 @@ class LearningAgent:
         # a - the index to the action in aa
         def selectactiontoexecute(self,st,aa):
                 # print("select one action to see if I learned")
+
+                self.actions[st] = len(aa)
+
                 a = 0
-                for i in range(0, len(aa)):
+                for i in range(0, self.actions[st]):
                         if self.qTable[st][i] > self.qTable[st][a]:
                                 a = i
                 return a

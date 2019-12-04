@@ -17,7 +17,6 @@ class LearningAgent:
                 self.nS = nS
                 self.nA = nA
                 # create a table nS x nA
-                # self.qTable = np.zeros((nS, nA))
                 self.qTable = np.zeros((nS, nA))
                 self.actions = [0] * nS
               
@@ -45,12 +44,7 @@ class LearningAgent:
         # a - the index to the action in aa
         def selectactiontoexecute(self,st,aa):
                 # print("select one action to see if I learned")
-
-                # a = 0
-                # for i in range(1, len(aa)):
-                #         if self.qTable[st, i] > self.qTable[st, a]:
-                #                 a = i
-                # return a
+                self.actions[st] = len(aa)
 
                 return np.argmax(self.qTable[st, :self.actions[st]])
 

@@ -1,5 +1,4 @@
 import random
-import math
 import numpy as np
 
 # LearningAgent to implement
@@ -17,12 +16,9 @@ class LearningAgent:
         def __init__(self,nS,nA):
                 self.nS = nS
                 self.nA = nA
-                
                 # create a table nS x nA
-                self.qTable = [[]] * nS
-                for i in range(nS):
-                        self.qTable[i] = [0] * nA
-
+                # self.qTable = np.zeros((nS, nA))
+                self.qTable = np.zeros((nS, nA))
                 self.actions = [0] * nS
               
         
@@ -49,11 +45,14 @@ class LearningAgent:
         # a - the index to the action in aa
         def selectactiontoexecute(self,st,aa):
                 # print("select one action to see if I learned")
-                a = 0
-                for i in range(0, len(aa)):
-                        if self.qTable[st][i] > self.qTable[st][a]:
-                                a = i
-                return a
+
+                # a = 0
+                # for i in range(1, len(aa)):
+                #         if self.qTable[st, i] > self.qTable[st, a]:
+                #                 a = i
+                # return a
+
+                return np.argmax(self.qTable[st, :self.actions[st]])
 
 
         # this function is called after every action
@@ -63,6 +62,6 @@ class LearningAgent:
         # r - reward obtained
         def learn(self,ost,nst,a,r):
                 #print("learn something from this data")
-                max_a = max(self.qTable[nst][:self.actions[nst]]) if self.actions[nst] != 0 else 0
-                self.qTable[ost][a] += self.ALPHA * (r + self.GAMMA * max_a - self.qTable[ost][a])
+                max = np.max(self.qTable[nst, :self.actions[nst]]) if self.actions[nst] != 0 else 0
+                self.qTable[ost, a] += self.ALPHA * (r + self.GAMMA * max - self.qTable[ost, a])
                 return

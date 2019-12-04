@@ -66,4 +66,3 @@ class LearningAgent:
                 #print("learn something from this data")
                 max_a = max(self.qTable[nst][:self.actions[nst]]) if self.actions[nst] != 0 else 0
                 self.qTable[ost][a] += self.ALPHA * (r + self.GAMMA * max_a - self.qTable[ost][a])
-                return

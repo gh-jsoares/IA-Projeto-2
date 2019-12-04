@@ -58,4 +58,3 @@ class LearningAgent:
         def learn(self,ost,nst,a,r):
                 #print("learn something from this data")
                 self.qTable[ost, a] += self.ALPHA * (r + self.GAMMA * np.max(self.qTable[nst, :]) - self.qTable[ost, a])
-                return
